@@ -1,7 +1,6 @@
 // '/api/v1/auth'
 const User = require('../models/User');
 const { StatusCodes } = require('http-status-codes');
-const jwt = require('jsonwebtoken');
 // const { BadRequestError } = require('../errors');
 
 const register = async (req, res) => {
@@ -12,9 +11,11 @@ const register = async (req, res) => {
    const user = await User.create({ ...req.body });
 
    // ===== JWT
-   const token = jwt.sign({ userId: user._id, user: user.name }, 'jwtSecret', {
-      expiresIn: '30d',
-   });
+   // en lugar de hacerlo de esta forma, voy a generarle un método a la instancia ( q es como un método cualquiera "una fcn q va a tener la instancia del schema" ) para q "con ese método" sea la instancia la q cree el token. ( está en /models/User.js ), la ventaja es q toda la lógica va a quedar allá.
+   // const token = jwt.sign({ userId: user._id, user: user.name }, 'jwtSecret', {
+   //    expiresIn: '30d',
+   // });
+   const token = user.createJWT();
 
    // ===== respuesta al front
    res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });

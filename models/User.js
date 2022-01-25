@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const UserSchema = new mongoose.Schema({
    name: {
@@ -25,11 +26,18 @@ const UserSchema = new mongoose.Schema({
 });
 
 // ===== para tener hashiado el pass
-// 🍑 usar fcn normal ( no arrow ) pa q el "this" apunte al UserSchema
+// 🍑, usar fcn normal ( no arrow ) pa q el "this" apunte al document
 UserSchema.pre('save', async function () {
    const salt = await bcrypt.genSalt(10);
    this.password = await bcrypt.hash(this.password, salt);
 });
+
+// ⭐
+UserSchema.methods.createJWT = function () {
+   return jwt.sign({ userId: this._id, name: this.name }, 'jwtSecret', {
+      expiresIn: '30d',
+   });
+};
 
 module.exports = mongoose.model('User', UserSchema);
 
@@ -57,7 +65,7 @@ module.exports = mongoose.model('User', UserSchema);
 // básicamente lo q va a hacer es q si estoy tratando de registrarme y el correo q pongo ya existe con alguien registrado => me da el mensaje de duplicado
 
 //
-// PARA UN MONGOOSE MIDDLEWARE
+// 🍑 PARA UN MONGOOSE MIDDLEWARE
 // en la documentacion en Middleware --> pre :
 // Pre
 // Pre middleware functions are executed one after another, when each middleware calls next.
@@ -93,3 +101,26 @@ module.exports = mongoose.model('User', UserSchema);
 //   // Unless you comment out the `return` above, 'after next' will print
 //   console.log('after next');
 // });
+
+//
+// ⭐ Instance methods
+// Instances of Models are documents. Documents have many of their own built-in instance methods. We may also define our own custom document instance methods.
+
+//   // define a schema
+//   const animalSchema = new Schema({ name: String, type: String });
+
+//   // assign a function to the "methods" object of our animalSchema
+//   animalSchema.methods.findSimilarTypes = function(cb) {
+//     return mongoose.model('Animal').find({ type: this.type }, cb);
+//   };
+// Now all of our animal instances have a findSimilarTypes method available to them.
+
+//   const Animal = mongoose.model('Animal', animalSchema);
+//   const dog = new Animal({ type: 'dog' });
+
+//   dog.findSimilarTypes((err, dogs) => {
+//     console.log(dogs); // woof
+//   });
+// Overwriting a default mongoose document method may lead to unpredictable results. See this for more details.
+// The example above uses the Schema.methods object directly to save an instance method. You can also use the Schema.method() helper as described here.
+// Do not declare methods using ES6 arrow functions (=>). Arrow functions explicitly prevent binding this, so your method will not have access to the document and the above examples will not work.
