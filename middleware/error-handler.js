@@ -1,5 +1,6 @@
 const { CustomAPIError } = require('../errors');
 const { StatusCodes } = require('http-status-codes');
+
 const errorHandlerMiddleware = (err, req, res, next) => {
    if (err instanceof CustomAPIError) {
       return res.status(err.statusCode).json({ msg: err.message });
@@ -8,3 +9,5 @@ const errorHandlerMiddleware = (err, req, res, next) => {
 };
 
 module.exports = errorHandlerMiddleware;
+
+// lo q saltan "q no son" custom errors ( los q están fuera el if ) vienen de MongoDB

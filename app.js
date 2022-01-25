@@ -8,7 +8,7 @@ const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
 // @@@@@@@@@@@@@@@@@@@@ MIDDLEWARE
-app.use(express.json());
+app.use(express.json()); // para req.body
 // extra packages
 
 // ========== routes
