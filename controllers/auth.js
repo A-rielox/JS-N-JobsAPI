@@ -1,7 +1,6 @@
 // '/api/v1/auth'
 const User = require('../models/User');
 const { StatusCodes } = require('http-status-codes');
-// const { BadRequestError } = require('../errors');
 
 const register = async (req, res) => {
    // console.log(req.body); { name: 'pepithor', email: 'sully@sully.com', password: 'maimlb2006' }

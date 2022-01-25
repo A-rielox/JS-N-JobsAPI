@@ -34,12 +34,19 @@ UserSchema.pre('save', async function () {
 
 // ⭐
 UserSchema.methods.createJWT = function () {
-   return jwt.sign({ userId: this._id, name: this.name }, 'jwtSecret', {
-      expiresIn: '30d',
-   });
+   return jwt.sign(
+      { userId: this._id, name: this.name },
+      process.env.JWT_SECRET,
+      {
+         expiresIn: process.env.JWT_LIFETIME,
+      }
+   );
 };
 
 module.exports = mongoose.model('User', UserSchema);
+
+//
+// para el JWT_SECRET usar allkeysgenerator.com, en la pestaña de "encription key" con "security level" de 256-bit
 
 //
 // bcryptjs --> pa hacer el hashing del password
@@ -66,6 +73,19 @@ module.exports = mongoose.model('User', UserSchema);
 
 //
 // 🍑 PARA UN MONGOOSE MIDDLEWARE
+
+// Types of Middleware
+// Mongoose has 4 types of middleware: document middleware, model middleware, aggregate middleware, and query middleware. Document middleware is supported for the following document functions. In document middleware functions, ⭐this⭐ refers to the document.
+
+// validate
+// save
+// remove
+// updateOne
+// deleteOne
+// init (note: init hooks are synchronous)
+
+// Note: The create() function fires save() hooks.
+
 // en la documentacion en Middleware --> pre :
 // Pre
 // Pre middleware functions are executed one after another, when each middleware calls next.
