@@ -33,6 +33,8 @@ const login = async (req, res) => {
    if (!user) {
       throw new UnauthenticatedError('Invalid Credentials');
    }
+
+   // con el middleware q yo cree
    const isPasswordCorrect = await user.comparePassword(password);
 
    if (!isPasswordCorrect) {
