@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { UnauthenticatedError } = require('../errors');
 
 const auth = (req, res, next) => {
-   // check header
+   // check header, 🔥
    const authHeader = req.headers.authorization;
 
    if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -24,3 +24,6 @@ const auth = (req, res, next) => {
 };
 
 module.exports = auth;
+
+// 🔥
+// AQUI DEBE VENIR EL TOKEN Q ES DONDE ESTÁ ( CODIFICADO ) EL ID DEL USUARIO EN LA DB, y aquí si está todo bien => se crea el req.user y coloca ahí el id

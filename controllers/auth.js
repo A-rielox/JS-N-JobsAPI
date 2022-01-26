@@ -34,19 +34,22 @@ const login = async (req, res) => {
       throw new UnauthenticatedError('Invalid Credentials');
    }
 
-   // con el middleware q yo cree
+   // se comparan passwords con el middleware q yo cree
    const isPasswordCorrect = await user.comparePassword(password);
 
    if (!isPasswordCorrect) {
       throw new UnauthenticatedError('Invalid Credentials');
    }
-   // compare password
 
    const token = user.createJWT();
+
    res.status(StatusCodes.OK).json({ user: { name: user.name }, token });
 };
 
 module.exports = { register, login };
+
+//
+// el token q se genera contiene la id q tiene el usuario en la DB
 
 //
 // 💥 la validación antigua era:

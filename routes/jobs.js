@@ -9,7 +9,7 @@ const {
    updateJob,
    deleteJob,
 } = require('../controllers/jobs');
-
+// '/api/v1/jobs'
 router.route('/').post(createJob).get(getAllJobs);
 router.route('/:id').get(getJob).delete(deleteJob).patch(updateJob);
 
