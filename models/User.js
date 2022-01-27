@@ -32,6 +32,7 @@ UserSchema.pre('save', async function () {
    this.password = await bcrypt.hash(this.password, salt);
 });
 
+// ===== JWT
 // ⭐
 UserSchema.methods.createJWT = function () {
    return jwt.sign(
@@ -58,8 +59,10 @@ module.exports = mongoose.model('User', UserSchema);
 //
 // bcryptjs --> pa hacer el hashing del password
 
+//
 // match: RegExp, creates a validator that checks if the value matches the given regular expression
 
+//
 // unique
 // Indexes
 // You can also define MongoDB indexes using schema type options.
@@ -91,7 +94,7 @@ module.exports = mongoose.model('User', UserSchema);
 // deleteOne
 // init (note: init hooks are synchronous)
 
-// Note: The create() function fires save() hooks.
+// Note: The create() function fires save() hooks. ⭐
 
 // en la documentacion en Middleware --> pre :
 // Pre

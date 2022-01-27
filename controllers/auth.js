@@ -16,6 +16,7 @@ const register = async (req, res) => {
    //    expiresIn: '30d',
    // });
    const token = user.createJWT();
+   // en el token esta el _id q tiene el usuario en el documento (DB) y el nombre de usuario
 
    // ===== respuesta al front
    res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });
