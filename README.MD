@@ -51,7 +51,7 @@ Email Validation Regex
 #### Security
 
 -  helmet
--  cors
+-  cors ( para q se pueda acceder desde != domains )
 -  xss-clean
 -  express-rate-limit
 
