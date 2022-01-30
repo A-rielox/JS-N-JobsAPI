@@ -37,7 +37,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
 module.exports = errorHandlerMiddleware;
 
 //
-// ${err.keyValue} me dava [object Object], x eso Object.keys()
+// ${err.keyValue} me daba [object Object], x eso Object.keys()
 
 //
 // lo q saltan "q no son" custom errors ( los q están fuera el if ) vienen de MongoDB, son por:
